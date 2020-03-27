@@ -1,9 +1,9 @@
 {
-	"name": "Summarize Instance",
+	"name": "Select Repeat Instance",
 
-	"namespace": "Stanford\\SummarizeInstance",
+	"namespace": "Stanford\\SelectRepeatInstance",
 
-	"description": "A quick EM that allows you to keep a single copy of a repeating form/event in another event in the project for reporting ease",
+	"description": "A quick EM that allows you to keep a single instance of a repeating form in a non-repeating event for ease of reporting and branching-logic comparisons",
 
 	"documentation": "README.md",
 
@@ -37,7 +37,7 @@
 	"project-settings": [
         {
       "key": "description",
-      "name": "<h6 class='text-center text-primary primary-success'><b>Summarize Instance Instructions</b></h6><p>This EM helps keep a single instance that represents the 'latest' or 'greatest' version of a repeating form/event</p>",
+      "name": "<h6 class='text-center text-primary primary-success'><b>Select Repeat Instance Instructions</b></h6><p>This EM helps keep a single instance that represents the 'latest' or 'greatest' version of a repeating form</p>",
       "type": "descriptive"
     },
     {
@@ -49,19 +49,19 @@
       "sub_settings": [
         {
           "key": "source-event-id",
-          "name": "<b>Source Event Id</b> This is where the repeating data is located<br/>Must contain either a repeating instrument or be a repeating event",
+          "name": "<b>Source Event Id</b><br>This is where the repeating data is located.  It must contain the repeating instrument",
           "required": true,
           "type": "event-list"
         },
         {
           "key": "source-form",
-          "name": "<b>Source Form</b> (leave BLANK for repeating events)<br>This is the repeating form you want to summarize",
+          "name": "<b>Source Form</b><br>This is the repeating form you want to summarize",
           "required": false,
           "type": "form-list"
         },
         {
           "key": "logic",
-          "name": "<b>Logic</b><br>Each time a save occurs in the source event, (and optionally, with the source form) - this logic will be evaluated to determine if the recently saved data should override the summary instance.  Leave blank to ALWAYS override the summary.  The logic will be executed in the context of the current event and instance of the source data that was just saved.",
+          "name": "<b>Logic</b><br>Each time a save occurs in the source event this logic will be evaluated to determine if the recently saved data should override the singleton, destination instance.  Leave blank to ALWAYS update the destination instance.  The logic will be executed in the context of the current event and instance of the source data that was just saved.",
           "required": false,
           "type": "text"
         },

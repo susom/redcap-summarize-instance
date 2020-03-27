@@ -1,6 +1,6 @@
 <?php
-namespace Stanford\SummarizeInstance;
-/** @var SummarizeInstance $this */
+namespace Stanford\SelectRepeatInstance;
+/** @var SelectRepeatInstance $this */
 
 
 /**

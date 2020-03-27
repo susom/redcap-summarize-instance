@@ -1,13 +1,13 @@
 <?php
 
-namespace Stanford\SummarizeInstance;
+namespace Stanford\SelectRepeatInstance;
 
 require_once("emLoggerTrait.php");
 require_once("RepeatingForms.php");
 
 use \REDCap;
 
-class SummarizeInstance extends \ExternalModules\AbstractExternalModule
+class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
 {
 
     use emLoggerTrait;

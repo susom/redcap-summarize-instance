@@ -8,6 +8,8 @@ form should be replaced with the data from the current form.
  * Start with an event with a repeating form (e.g. medications in the baseline event)
  * Enable this form in another event as a non-repeating form (e.g. medications in most_recent event)
 
+ * The form in the
+
 ### EM Configuration
 Configure the EM by specifying the:
  * [source-event-id]  (e.g. baseline_arm_1)
@@ -25,4 +27,5 @@ It is possible to configure many summary instances in a single project
 was the most recent visit detail.  If you deleted an instance, you would have to evaluate all of the instances to find the one
 with the most recent visit_date...  Not sure how to approach this - it would require custom logic handling...  It could,
 for example, sort all instances by a field and take the first or last of them.
+- warn summary instance of form to be read-only when viewed?
 

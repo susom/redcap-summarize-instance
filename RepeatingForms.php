@@ -1,5 +1,5 @@
 <?php
-namespace Stanford\SummarizeInstance;
+namespace Stanford\SelectRepeatInstance;
 
 use \REDCap;
 use \Project;
