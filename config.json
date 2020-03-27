@@ -1,5 +1,5 @@
 {
-	"name": "SummarizeInstance",
+	"name": "Summarize Instance",
 
 	"namespace": "Stanford\\SummarizeInstance",
 
@@ -56,13 +56,13 @@
         {
           "key": "source-form",
           "name": "<b>Source Form</b> (leave BLANK for repeating events)<br>This is the repeating form you want to summarize",
-          "required": true,
-          "type": "field-list"
+          "required": false,
+          "type": "form-list"
         },
         {
           "key": "logic",
           "name": "<b>Logic</b><br>Each time a save occurs in the source event, (and optionally, with the source form) - this logic will be evaluated to determine if the recently saved data should override the summary instance.  Leave blank to ALWAYS override the summary.  The logic will be executed in the context of the current event and instance of the source data that was just saved.",
-          "required": true,
+          "required": false,
           "type": "text"
         },
         {
@@ -70,6 +70,12 @@
           "name": "<b>Destination Event Id</b> This is a different event in the project where the singleton data will be saved.",
           "required": true,
           "type": "event-list"
+        },
+        {
+          "key": "destination-summary-field",
+          "name": "<b>Destination Summary Field</b> (optional) <br> If specified, this field must be enabled in the destination event (on a form other than the Source Form).  When the destination is updated, the instance id of the source form will be written to this field",
+          "required": false,
+          "type": "field-list"
         }
       ]
     },
