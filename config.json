@@ -1,0 +1,99 @@
+{
+	"name": "SummarizeInstance",
+
+	"namespace": "Stanford\\SummarizeInstance",
+
+	"description": "A quick EM that allows you to keep a single copy of a repeating form/event in another event in the project for reporting ease",
+
+	"documentation": "README.md",
+
+	"authors": [
+		{
+			"name": "Andrew Martin",
+			"email": "andy123@stanford.edu",
+			"institution": "Stanford Medicine"
+		}
+	],
+
+	"permissions": [
+		"redcap_save_record"
+	],
+
+	"enable-every-page-hooks-on-system-pages": false,
+
+	"links": {
+		"project": [
+
+		],
+		"control-center": [
+
+		]
+	},
+
+	"no-auth-pages": [
+
+	],
+
+	"project-settings": [
+        {
+      "key": "description",
+      "name": "<h6 class='text-center text-primary primary-success'><b>Summarize Instance Instructions</b></h6><p>This EM helps keep a single instance that represents the 'latest' or 'greatest' version of a repeating form/event</p>",
+      "type": "descriptive"
+    },
+    {
+      "key": "instance",
+      "name": "<b>Instances (more than one config is possible)</b>",
+      "required": true,
+      "type": "sub_settings",
+      "repeatable": true,
+      "sub_settings": [
+        {
+          "key": "source-event-id",
+          "name": "<b>Source Event Id</b> This is where the repeating data is located<br/>Must contain either a repeating instrument or be a repeating event",
+          "required": true,
+          "type": "event-list"
+        },
+        {
+          "key": "source-form",
+          "name": "<b>Source Form</b> (leave BLANK for repeating events)<br>This is the repeating form you want to summarize",
+          "required": true,
+          "type": "field-list"
+        },
+        {
+          "key": "logic",
+          "name": "<b>Logic</b><br>Each time a save occurs in the source event, (and optionally, with the source form) - this logic will be evaluated to determine if the recently saved data should override the summary instance.  Leave blank to ALWAYS override the summary.  The logic will be executed in the context of the current event and instance of the source data that was just saved.",
+          "required": true,
+          "type": "text"
+        },
+        {
+          "key": "destination-event-id",
+          "name": "<b>Destination Event Id</b> This is a different event in the project where the singleton data will be saved.",
+          "required": true,
+          "type": "event-list"
+        }
+      ]
+    },
+		{
+			"key": "enable-project-debug-logging",
+			"name": "<b>Enable Debug Logging</b><br><i>(optional)</i> Requires installation and configuration of emLogger",
+			"required": false,
+			"type": "checkbox"
+		}
+	],
+
+	"system-settings": [
+		{
+			"key": "enable-system-debug-logging",
+			"name": "<b>Enable Debug Logging (system-wide)</b><i>(optional)</i> Requires installation and configuration of emLogger",
+			"required": false,
+			"type": "checkbox"
+		}
+	],
+
+	"compatibility": {
+		"php-version-min": "7.0",
+		"php-version-max": "",
+		"redcap-version-min": "",
+		"redcap-version-max": ""
+	}
+}
