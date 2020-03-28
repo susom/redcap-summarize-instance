@@ -1,8 +1,11 @@
-# Summarize Instance
-An EM that allows you to save a single instance of a repeating form in another event.
+# Select Repeat Instance
+An EM that allows you to save a single instance of a repeating form mirrored to another event.
 
 When the repeating form is saved, it can be compared against the singleton form in the other event to decide if the singleton
-form should be replaced with the data from the current form.
+form should be replaced with the data from the current repeating form instance.
+
+For example, imagine you have a monthly checkin process and want to have a report to show just the latest checkin
+results.  With SRI you can simply report on the event_2 copy of the latest instance of the monthly checkin.
 
 ### Project Setup
  * Start with an event with a repeating form (e.g. medications in the baseline event)
