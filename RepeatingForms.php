@@ -174,6 +174,7 @@ class RepeatingForms
         $this->data_loaded = true;
     }
 
+
     /**
      * This function will return the data retrieved based on a previous loadData call. All instances of an
      * instrument fitting the criteria specified in loadData will be returned. See the file header for the
@@ -199,6 +200,7 @@ class RepeatingForms
 
         return $this->data;
     }
+
 
     /**
      * This function will return one instance of data retrieved in dataLoad using the $instance_id.
@@ -240,6 +242,7 @@ class RepeatingForms
             }
         }
     }
+
 
     /**
      * This function will return the first instance_id for this record and optionally event. This function

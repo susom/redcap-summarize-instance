@@ -23,6 +23,7 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
      * @param      $response_id
      * @param int  $repeat_instance
      * @return bool
+     * @throws \Exception
      */
     public function redcap_save_record($project_id, $record, $instrument, $event_id, $group_id = NULL, $survey_hash, $response_id, $repeat_instance = 1)
     {
