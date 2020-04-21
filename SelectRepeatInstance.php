@@ -3,9 +3,11 @@
 namespace Stanford\SelectRepeatInstance;
 
 require_once("emLoggerTrait.php");
-require_once("RepeatingForms.php");
+// require_once("RepeatingForms.php");
+require_once("FormHelper.php");
 
 use \REDCap;
+use \Exception;
 
 class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
 {
@@ -23,10 +25,11 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
      * @param      $response_id
      * @param int  $repeat_instance
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function redcap_save_record($project_id, $record, $instrument, $event_id, $group_id = NULL, $survey_hash, $response_id, $repeat_instance = 1)
     {
+
         // Take the current instrument and get all the fields.
         $instances = $this->getSubSettings('instance');
 
@@ -43,20 +46,21 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
             $event_name = $event_names[$event_id];
 
             if ($event_id !== $source_event_id) {
-                $this->emDebug("Skipping event $event_id");
+                // $this->emDebug("Skipping event $event_id");
                 continue;
             }
 
             if ($instrument !== $instance['source-form']) {
-                $this->emDebug("Skipping form $instrument");
+                // $this->emDebug("Skipping current form $instrument");
                 continue;
             }
 
             // Is the source event a repeating event or do we just have a repeating form?
-            $rp = new RepeatingForms($project_id, $instrument);
+            $f = new FormHelper($project_id, $instrument, $this);
 
-            if($rp === false) {
-                $this->emLog("Unable to instantiate RepeatingForms", $rp->last_error_message);
+            if($f === false) {
+                $this->emLog("Unable to instantiate RepeatingForms");
+                continue;
             }
 
             // Determine if we should do the summary copy
@@ -69,33 +73,43 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
                 }
             }
 
-            // Make sure form is enabled in destination event id
-            global $Proj;
-            // $this->emDebug($Proj->eventsForms[$destination_event_id]);
-
-            if (! in_array($instrument, $Proj->eventsForms[$destination_event_id])) {
-                $this->emLog("$instrument is not defined in the destination event id");
+            // Make sure the destination is a singleton event
+            if ($f->getEventType($destination_event_id) !== $f::TYPE_SINGLETON) {
+                $this->emLog("$instrument is enabled as a non-repeating form in the destination event $destination_event_id");
                 continue;
             }
 
+            if ($f->getEventType($source_event_id) == $f::TYPE_SINGLETON) {
+                // We are doing a normal copy of the data
+                $this->emDebug("Doing a singleton save");
+                $data = $f->getData($record, $source_event_id);
+            } else {
+                $this->emDebug("Doing an instance save $repeat_instance data");
+                $data = $f->getDataByInstanceId($record, $source_event_id, $repeat_instance);
+            }
+            $this->emDebug("Save Data is ", $data);
+            $result = $f->saveData($record, $data, $destination_event_id);
+
             // Load the data
-            $data = $rp->getInstanceById( $record, $repeat_instance, $event_id);
-            $data['redcap_event_name'] = $event_names[$destination_event_id];
-            $data[\REDCap::getRecordIdField()] = $record;
+            // $data = $f->getInstanceById( $record, $repeat_instance, $event_id);
+            // $data['redcap_event_name'] = $event_names[$destination_event_id];
+            // $data[\REDCap::getRecordIdField()] = $record;
 
             if (!empty($destination_summary_field)) {
                 // Verify field exists in destination event
                 $dest_fields = \REDCap::getValidFieldsByEvents($project_id,$destination_event_id,false);
-                //$this->emDebug($dest_fields);
                 if(!in_array($destination_summary_field, $dest_fields)) {
                     $this->emError("Destination Summary Field $destination_summary_field is not enabled in destination event $destination_event_id");
                 } else {
-                    $data[$destination_summary_field] = $repeat_instance;
+                    $data = array($destination_summary_field => $repeat_instance);
+                    $result2 = $f->saveData($record, $data, $destination_event_id);
+                    $this->emDebug("Saving destination summary field $destination_summary_field", $data, $result2);
+                    // $data[$destination_summary_field] = $repeat_instance;
                 }
             }
 
 
-            $result = REDCap::saveData('json', json_encode(array($data)), 'overwrite');
+            // $result = REDCap::saveData('json', json_encode(array($data)), 'overwrite');
             if (!empty($result['errors'])) {
                 $this->emError($result);
                 REDCap::logEvent("Summary Instance Update Failure","Failed to update summary instance for record $record instance $repeat_instance on form $instrument","", $record, $event_id, $project_id);
