@@ -23,11 +23,6 @@
 
 	"links": {
 		"project": [
-            {
-				"name": "Test formHelper",
-				"icon": "report",
-				"url": "test"
-			}
 		],
 		"control-center": [
 

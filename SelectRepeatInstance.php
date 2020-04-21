@@ -59,7 +59,7 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
             $f = new FormHelper($project_id, $instrument, $this);
 
             if($f === false) {
-                $this->emLog("Unable to instantiate RepeatingForms");
+                $this->emLog("Unable to instantiate FormHelper");
                 continue;
             }
 
@@ -85,7 +85,7 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
                 $data = $f->getData($record, $source_event_id);
             } else {
                 $this->emDebug("Doing an instance save $repeat_instance data");
-                $data = $f->getDataByInstanceId($record, $source_event_id, $repeat_instance);
+                $data = $f->getData($record, $source_event_id, $repeat_instance);
             }
             $this->emDebug("Save Data is ", $data);
             $result = $f->saveData($record, $data, $destination_event_id);
