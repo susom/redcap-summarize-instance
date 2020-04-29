@@ -75,7 +75,13 @@
           "name": "<b>Destination Summary Field</b> (optional) <br> If specified, this field must be enabled in the destination event (on a form other than the Source Form).  When the destination is updated, the instance id of the source form will be written to this field",
           "required": false,
           "type": "field-list"
-        }
+        },
+        {
+			"key": "ignore-empties",
+			"name": "<b>Ignore Empty Values</b><br>If checked, empty values from the source form will not overwrite values on the destination event.  For example, if a checkbox was EVER checked and replicated, it will not be unchecked if the next instance does not include that check",
+			"required": false,
+			"type": "checkbox"
+		}
       ]
     },
 		{
