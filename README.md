@@ -8,10 +8,9 @@ For example, imagine you have a monthly checkin process and want to have a repor
 results.  With SRI you can simply report on the event_2 copy of the latest instance of the monthly checkin.
 
 ### Project Setup
- * Start with an event with a repeating form (e.g. medications in the baseline event)
+ * Start with an event with a repeating form (e.g. medications in the baseline event) or a singleton form.
  * Enable this form in another event as a non-repeating form (e.g. medications in most_recent event)
-
- * The form in the
+ * When the source form is saved, it will be copied to the destination form (pending optional logic)
 
 ### EM Configuration
 Configure the EM by specifying the:
@@ -21,6 +20,11 @@ Configure the EM by specifying the:
    * Note how the first visit date is not prepended with an event_name.  This means it will be executed in the context of
    the current event in which it was saved.  The same applies to instance number.
  * [destination-event-id] (e.g. recent_arm_1)
+ * [destination-summary-field] (optional, e.g. [source_instance].  Will save the source instance that was last copied
+  to this destination event_id)
+ * [ignore-empties] (if checked, an empty value in the source form will not erase a previous value in the destination
+  form - it is like a file copy that doesn't purge deletes - request from
+   [Steven Boren](https://community.projectredcap.org/questions/83301/select-repeat-instance.html)
 
 It is possible to configure many summary instances in a single project
 

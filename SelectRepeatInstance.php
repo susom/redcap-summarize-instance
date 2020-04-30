@@ -41,6 +41,7 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
             $logic                     = $instance['logic'];
             $destination_event_id      = $instance['destination-event-id'];
             $destination_summary_field = $instance['destination-summary-field'];
+            $ignore_empties            = $instance['ignore-empties'];
 
             $event_names = REDCap::getEventNames(true,true);
             $event_name = $event_names[$event_id];
@@ -50,7 +51,7 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
                 continue;
             }
 
-            if ($instrument !== $instance['source-form']) {
+            if ($instrument !== $source_form) {
                 // $this->emDebug("Skipping current form $instrument");
                 continue;
             }
@@ -88,6 +89,22 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
                 $data = $f->getData($record, $source_event_id, $repeat_instance);
             }
             $this->emDebug("Save Data is ", $data);
+
+            // Remove empties
+            if ($ignore_empties) {
+                foreach ($data as $k => $v) {
+                    if (is_array($v)) {
+                        // Handle checkboxes
+                        foreach ($v as $k2 => $v2) {
+                            if ($v2 == 0) unset($data[$k][$k2]);
+                        }
+                    } elseif ($v == "") {
+                        // Handle everything else
+                        unset($data[$k]);
+                    }
+                }
+            }
+
             $result = $f->saveData($record, $data, $destination_event_id);
 
             // Load the data
