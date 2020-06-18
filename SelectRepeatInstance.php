@@ -29,6 +29,8 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
      */
     public function redcap_save_record($project_id, $record, $instrument, $event_id, $group_id = NULL, $survey_hash, $response_id, $repeat_instance = 1)
     {
+        // Make this the last EM to run
+        $this->delayModuleExecution();
 
         // Take the current instrument and get all the fields.
         $instances = $this->getSubSettings('instance');
