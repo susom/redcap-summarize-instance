@@ -44,22 +44,30 @@ class SelectRepeatInstance extends \ExternalModules\AbstractExternalModule
             $destination_event_id      = $instance['destination-event-id'];
             $destination_summary_field = $instance['destination-summary-field'];
             $ignore_empties            = $instance['ignore-empties'];
+            $initiate_event_id         = $instance['initiate-event-id'];
+            $initiate_form             = $instance['initiate-form'];
+            $activate_event_id         = (empty($initiate_event_id) ? $source_event_id : $initiate_event_id);
+            $activate_form             = (empty($initiate_form) ? $source_form : $initiate_form);
+            $this->emDebug("Activate event id: " . $activate_event_id);
+            $this->emDebug("Activate form: " . $activate_form);
+
 
             $event_names = REDCap::getEventNames(true,true);
             $event_name = $event_names[$event_id];
 
-            if ($event_id !== $source_event_id) {
+            if ($event_id !== $activate_event_id) {
                 // $this->emDebug("Skipping event $event_id");
                 continue;
             }
 
-            if ($instrument !== $source_form) {
+            if ($instrument !== $activate_form) {
                 // $this->emDebug("Skipping current form $instrument");
                 continue;
             }
 
             // Is the source event a repeating event or do we just have a repeating form?
-            $f = new FormHelper($project_id, $instrument, $this);
+            //$f = new FormHelper($project_id, $instrument, $this);
+            $f = new FormHelper($project_id, $source_form, $this);
 
             if($f === false) {
                 $this->emLog("Unable to instantiate FormHelper");

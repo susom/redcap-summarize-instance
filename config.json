@@ -81,7 +81,19 @@
 			"name": "<b>Ignore Empty Values</b><br>If checked, empty values from the source form will not overwrite values on the destination event.  For example, if a checkbox was EVER checked and replicated, it will not be unchecked if the next instance does not include that check",
 			"required": false,
 			"type": "checkbox"
-		}
+		},
+        {
+            "key": "initiate-form",
+            "name": "<b>OPTIONAL: Initiate Form</b> The combination of Initiate Form/Event ID will active the save. When left empty, the copy will occur when the source form is saved.",
+            "required": false,
+            "type": "form-list"
+        },
+        {
+            "key": "initiate-event-id",
+            "name": "<b>OPTIONAL: Initiate Event ID</b> In combination with Initiate Form, the form in this event will initiate the copy. When not filled in, the source form will initiate the save.",
+            "required": false,
+            "type": "event-list"
+        }
       ]
     },
 		{
