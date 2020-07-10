@@ -172,6 +172,12 @@ class FormHelper
         // Re-parse the instance data into a simpler array
         switch($this->getEventType($event_id)) {
             case self::TYPE_REPEAT_EVENT:
+                foreach (array_keys($query) as $record_id) {
+                    if (isset($query[$record_id]["repeat_instances"][$event_id])) {
+                        $this->data[$record_id][$event_id] = $query[$record_id]["repeat_instances"][$event_id][""];
+                    }
+                }
+                break;
             case self::TYPE_REPEAT_INSTRUMENT:
                 foreach (array_keys($query) as $record_id) {
                     if (isset($query[$record_id]["repeat_instances"][$event_id][$this->instrument])) {
@@ -312,7 +318,7 @@ class FormHelper
 
             $payload[$record_id]['repeat_instances'][$event_id][$this->instrument] = $data;
         } else {
-            $this->module->emDebug("$event_id is NOT repeating");
+            $this->module->emDebug("Destination event $event_id is NOT repeating");
             $payload[$record_id][$event_id] = $data;
         }
 
